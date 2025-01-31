@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Feed - Blogs & Beyond</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  </head>
+  <body class="bg-zinc-300">
+    <!-- Header Section -->
+    <div class="header p-5 text-white text-2xl flex items-center justify-between bg-black">
+      <a href="/" class="flex items-center">
+        <i class="fa-solid fa-house text-xl text-white mr-3 md:text-2xl" style="color: rgb(104, 108, 117);"></i>
+        <h3 class="font-serif"><b>Blogs & Beyond</b></h3>
+      </a>
+  </div>
+    <div class="flex flex-col items-center w-full">
+    <div class="font-bold text-3xl mt-10"><%=Blog.btitle %></div>
+    <div class="mt-10 bg-white w-auto mr-10 rounded-lg p-10 ml-10 flex flex-col justify-between leading-loose">
+        <div class="flex justify-between mb-10">
+          <p class="blog-date text-blue-600"><%= Blog.date %></p>
+          <a href="" class="text-red-500"><%= Blog.email %></a>
+        </div>
+        <hr class="mb-5">
+        <%= Blog.bcontent %>
+    </div>
+  </div>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const dateElements = document.querySelectorAll(".blog-date");
+        dateElements.forEach((element) => {
+          const words = element.textContent.split(" ");
+          if (words.length > 4) {
+            element.textContent = words.slice(0, 4).join(" ");
+          }
+        });
+    });
+  </script>
+</html>

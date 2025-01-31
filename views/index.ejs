@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom hover animations */
+      .hover-underline {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hover-underline::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #87898d; /* Tailwind yellow-400 */
+        bottom: 0;
+        left: -100%;
+        transition: left 0.4s ease-in-out;
+      }
+
+      .hover-underline:hover::after {
+        left: 0;
+      }
+
+      .hover-scale:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease;
+      }
+    </style>
+  </head>
+  <body id="body" class="flex flex-col min-h-screen bg-white text-black">
+    <!-- Header -->
+    <div class="header flex flex-wrap p-4 justify-between bg-black text-white">
+      <h1 class="text-xl md:font-bold hover-scale sm:m-0 font-serif">
+        Blogs & Beyond
+      </h1>
+      <div
+        class="auth flex justify-between items-center gap-6 md:text-sm sm:text-xl"
+      >
+        <a href="" id="theme">
+          <i
+            id="theme-toggle"
+            class="fa-regular fa-sun text-white text-xl text-white border border-none border-gray-300 p-1 rounded-full pr-2 pl-2 hover:bg-gray-600"
+          ></i
+        ></a>
+        <a id="login-link" class="hover:underline hover-scale" href=""
+          >Log In</a
+        >
+        <a
+          id="logout-link"
+          class="bg-red-400 p-2 rounded-md hover:underline hover-scale hidden"
+          href="/logout"
+          >Log Out</a
+        >
+      </div>
+      <% if (successMessage && successMessage.length > 0) { %>
+      <div
+        id="success-popup"
+        class="fixed top-5 right-5 bg-green-500 text-white p-3 rounded shadow-lg"
+      >
+        <%= successMessage %>
+      </div>
+      <% } %> <% if (successMessagelogin && successMessagelogin.length > 0) { %>
+      <div
+        id="success-popup"
+        class="fixed top-5 right-5 bg-green-500 text-white p-3 rounded shadow-lg"
+      >
+        <%= successMessagelogin %>
+      </div>
+      <% } %> <% if (error && error.length > 0) { %>
+      <div
+        id="error-popup"
+        class="fixed top-5 right-5 bg-red-500 text-white p-3 rounded shadow-lg"
+      >
+        <%= error %>
+      </div>
+      <% } %>
+    </div>
+
+    <!--Login modal-->
+    <div
+      id="login-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
+    >
+      <div class="bg-white p-4 rounded-lg shadiow-lg text-center">
+        <div class="text-xl mb-4">
+          <h2 class="mb-4">Log In</h2>
+          <form action="/login" method="post">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              class="border p-2 rounded w-full mb-4"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              class="border p-2 rounded w-full mb-4"
+              required
+            />
+            <button
+              id="login-button"
+              class="bg-zinc-600 text-white p-2 rounded-md w-full hover:bg-blue-600"
+            >
+              Log In
+            </button>
+            <button
+              type="button"
+              id="close-modal"
+              class="mt-4 text-red-600 hover:underline"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div
+      class="nav flex justify-center bg-black text-white gap-10 p-2 md:text-lg sm:text-sm mt-1"
+    >
+      <a class="hover:text-zinc-400 hover-underline" href="/about">Our Story</a>
+      <a class="hover:text-zinc-400 hover-underline" href="/createBlog"
+        >Write</a
+      >
+      <a class="hover:text-zinc-400 hover-underline" href="/read">Read</a>
+      <a class="hover:text-zinc-400 hover-underline" href="/contact">Contact</a>
+    </div>
+
+    <!-- Main Content -->
+    <div
+      id="main"
+      class="Create w-full flex-grow bg-blue-300 flex flex-col justify-center items-center"
+    >
+      <div
+        id="content"
+        class="text-center border-4 border-zinc-500 p-10 rounded-lg shadow-lg bg-zinc-300"
+      >
+        <h1 class="text-5xl sm:text-7xl font-bold hover-scale">Human,</h1>
+        <h1 class="text-5xl sm:text-7xl font-bold mt-3 hover-scale">
+          Stories & Ideas
+        </h1>
+        <h3 class="text-2xl sm:text-2xl mt-8 hover-scale">
+          "A place to read, write and deepen your understanding"
+        </h3>
+      </div>
+      <a class="hover:underline hover-scale" href="/createUser">
+        <button
+          id="registerBtn"
+          class="bg-blue-600 text-white p-2 rounded-lg mt-4 sm:mt-10 w-80 font-bold hover:bg-zinc-600"
+        >
+          Get Started
+        </button>
+      </a>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-black text-white p-2">
+      <div class="mx-auto flex flex-wrap justify-center items-center">
+        <p class="text-sm">©2025 Blogs & Beyond. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+  <script>
+    // Automatically hide the popup after 3 seconds
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const htmlElement = document.documentElement;
+      const registerBtn = document.getElementById("registerBtn");
+      htmlElement.classList.remove("dark");
+      const isLoggedIn = document.cookie.includes("token=");
+      if (isLoggedIn) {
+        loginlink.classList.add("hidden");
+        logoutlink.classList.remove("hidden");
+        registerBtn.classList.add("hidden");
+      }
+
+      const popup = document.getElementById("success-popup");
+      if (popup) {
+        setTimeout(() => (popup.style.display = "none"), 2000);
+      }
+      const loginpopup = document.getElementById("success-popup");
+      if (loginpopup) {
+        setTimeout(() => (loginpopup.style.display = "none"), 2000);
+        loginlink.classList.add("hidden");
+        logoutlink.classList.remove("hidden");
+      }
+      const errorpopup = document.getElementById("error-popup");
+      if (errorpopup) {
+        setTimeout(() => (errorpopup.style.display = "none"), 2000);
+      }
+    });
+
+    const loginlink = document.getElementById("login-link");
+    const logoutlink = document.getElementById("logout-link");
+    const loginmodal = document.getElementById("login-modal");
+    const loginButton = document.getElementById("login-button");
+    const closemodal = document.getElementById("close-modal");
+
+    loginlink.addEventListener("click", () => {
+      event.preventDefault();
+      loginmodal.classList.remove("hidden");
+    });
+
+    closemodal.addEventListener("click", () => {
+      loginmodal.classList.add("hidden");
+    });
+
+    const theme = document.getElementById("theme");
+    theme.addEventListener("click", (event) => {
+      event.preventDefault();
+      const body = document.getElementById("body");
+      const main = document.getElementById("main");
+      const content = document.getElementById("content");
+      const themeIcon = document.getElementById("theme-toggle");
+
+      body.classList.toggle("text-white");
+      body.classList.toggle("bg-gray-900");
+      main.classList.toggle("bg-gray-800");
+      content.classList.toggle("bg-zinc-600");
+      content.classList.toggle("text-black");
+
+      themeIcon.classList.toggle("fa-sun");
+      themeIcon.classList.toggle("fa-moon");
+    });
+
+    if (isLoggedIn) {
+      logoutlink.classList.remove("hidden");
+    }
+  </script>
+</html>

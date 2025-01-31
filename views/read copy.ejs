@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Feed - Blogs & Beyond</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+  </head>
+  <style>
+    .swiper {
+      width: 600px;
+      height: 300px;
+    }
+  </style>
+  <body class="overflow-hidden">
+    <div
+      class="header p-3 text-white text-2xl flex items-center justify-between bg-black mb-2"
+    >
+      <a href="/" class="flex items-center">
+        <i class="fa-solid fa-house text-white text-xl mr-3"></i>
+      </a>
+      <h1>Your Feed</h1>
+      <div></div>
+    </div>
+
+    <div class="flex justify-center items-center space-x-2">
+      <!-- Featured Post Section -->
+      <div
+        class="bg-blue-300 rounded-lg ml-2 w-1/2 min-h-screen p-4 flex flex-col items-center"
+      >
+        <h1 class="text-2xl font-bold mb-4 mt-10">Your Blogs</h1>
+        <div class="swiper mt-4 h-96 ">
+          <div class="swiper-wrapper">
+            <!-- Slides for Featured Post -->
+            <!--loop will come here-->
+            <% blogs.forEach(function(blog) { %> <% if (blog.email == user) { %>
+              <div class="swiper-slide bg-white p-4 border rounded-lg mt-1">
+                <div class="flex justify-between">
+                  <h3 class="font-bold text-2xl text-blue-800">
+                    <%= blog.btitle %>
+                  </h3>
+                  <div>
+                    <a href="">
+                      <i
+                        class="fa-solid fa-pen-to-square"
+                        style="color: #64eb3f; font-size: large"
+                      ></i>
+                    </a>
+                    <a href="/deleteBlog/<%= blog._id%>">
+                      <i
+                        class="fa-solid fa-trash ml-2 mt-2"
+                        style="color: #ec1a1a; font-size: large"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+                <p class="mt-2 text-red-500">Author - Me</p>
+                <p class="blog-date mt-1"><%= blog.date %></p>
+                <hr class="mt-5" />
+                <p class="blog-content mt-10 text-arial mb-5">
+                  <%= blog.bcontent %>
+                </p>
+                <a href="#" class="text-green-700">Read More...</a>
+              </div>
+            <% } %> <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <!-- All Posts Section -->
+      <div
+        class="  w-1/2 min-h-screen p-4 flex flex-col items-center"
+      >
+        <h1 class="text-2xl font-bold mb-4 mt-10">All Blogs</h1>
+        <div class="swiper mt-4 h-96">
+          <div class="swiper-wrapper">
+            <!-- Slides for All Posts -->
+            <% blogs.forEach(function(blog) { %> <% if (blog.email != user) { %>
+            <div class="swiper-slide bg-white p-4 border border-blue border-2xl rounded-lg mt-1   bg-zinc-200">
+              <div class="flex justify-between">
+                <h3 class="font-bold text-2xl text-blue-800">
+                  <%= blog.btitle %>
+                </h3>
+                <div>
+                </div>
+              </div>
+              <p class="mt-2 text-red-500">Author - <%= blog.email %></p>
+              <p class="blog-date mt-1"><%= blog.date %></p>
+              <hr class="mt-5" />
+              <p class="blog-content mt-10 text-arial mb-5">
+                <%= blog.bcontent %>
+              </p>
+              <a href="#" class="text-green-700">Read More...</a>
+            </div>
+            <% } %> <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const swiper = new Swiper(".swiper", {
+      // Optional parameters
+      direction: "vertical",
+      loop: true,
+
+      // If we need pagination
+      pagination: {
+        el: ".swiper-pagination",
+      },
+
+      // Navigation arrows
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+
+      // And if we need scrollbar
+      scrollbar: {
+        el: ".swiper-scrollbar",
+      },
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const contentElements = document.querySelectorAll(".blog-content");
+      contentElements.forEach((element) => {
+        const words = element.textContent.split(" ");
+        if (words.length > 50) {
+          // Limit to 30 words
+          element.textContent = words.slice(0, 50).join(" ") + "...";
+        }
+      });
+      const date = document.querySelectorAll(".blog-date");
+      date.forEach((element) => {
+        const words = element.textContent.split(" ");
+        if (words.length > 4) {
+          // Limit to 30 words
+          element.textContent = words.slice(0, 4).join(" ");
+        }
+      });
+    });
+  </script>
+</html>

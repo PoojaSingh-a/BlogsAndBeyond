@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog-Blog & Beyond</title>
+    <script src="https://cdn.tailwindcss.com"></script>    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="sm:overflow-hidden min-h-screen">
+    <div class="header p-5 text-white text-xl sm:text-2xl flex items-center justify-between bg-black">
+        <a href="/" class="flex items-center">
+            <i class="fa-solid fa-house text-white text-2xl mr-3" style="color: rgb(104, 108, 117);"></i>
+            <h1 class="text-xl md:font-bold hover-scale sm:m-0 font-serif">Blogs & Beyond</h1>
+        </a>
+        <% if (successBlogWrite) { %>
+            <div id="successBlogWrite-popup" class="fixed text-xl top-5 right-5 bg-green-500 text-white p-2 rounded shadow-lg">
+                <%= successBlogWrite %>
+            </div>
+        <% } %>
+        <h1></h1>
+    </div>
+    <div class="bg-blue-300 min-h-screen flex flex-col items-center relative p-3">
+        <h1 class="text-2xl font-bold mt-10">Create a New Blog Post</h1>
+        <form action="/createBlog" method="post" class="mt-20 bg-white p-10 rounded-lg shadow-lg h-full w-full sm:w-2/3">
+            <div class="mb-4 mt-5">
+                <label for="btitle" class="block text-gray-700 font-medium mb-1">Blog Title</label>
+                <input type="text" id="btitle" name="btitle" class="w-full border border-gray-300 rounded-md p-2 ">
+            </div>
+            <div class="mb-4">
+                <label for="bcontent" class="block text-gray-700 font-medium mb-1">Blog Content</label>
+                <textarea id="bcontent" name="bcontent" class="w-full border border-gray-300 rounded-md p-2" rows="5"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-blue-700 text-white font-bold py-2 px-4 rounded hover:bg-zinc-600">Publish Blog</button>
+            <button type="button" class="mt-2 w-full bg-zinc-400 text-white font-bold py-2 px-4 rounded hover:bg-zinc-800 hover:text-white" onClick="goBack()">Go Back</button>
+        </form>
+        
+</div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const popup = document.getElementById('successBlogWrite-popup');
+        if (popup) {
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+    });
+    function goBack(){
+        history.back()
+    }
+</script>
+</html>
