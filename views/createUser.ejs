@@ -23,13 +23,17 @@
     </div>
     <div class="mb-4">
         <label for="password" class="block text-gray-700 font-medium mb-1" required>Password</label>
-        <input type="password" id="password" name="password" class="w-full border border-gray-300 rounded-md p-2 ">
+        <div class="relative">
+            <input type="password" id="password" name="password" class="w-full border border-gray-300 rounded-md p-2 pr-10">
+            <button class="toggle-password text-xl absolute inset-y-0 right-0 flex items-center px-3" onClick="togglePassword()">👁</button>
+        </div>
     </div>
     <div class="mb-4">
         <label for="age" class="block text-gray-700 font-medium mb-1" required>Age</label>
         <input type="number" id="age" name="age" class="w-full border border-gray-300 rounded-md p-2 ">
     </div>
     <button type="button" class="w-full bg-black text-white font-bold py-2 px-4 rounded hover:bg-yellow-600" onclick="check()">Register</button>
+    <button type="button" class="mt-2 w-full bg-zinc-400 text-white font-bold py-2 px-4 rounded hover:bg-zinc-800 hover:text-white" onClick="goBack()">Go Back</button>
 </form>
         </div>
 </body>
@@ -61,6 +65,17 @@
         }
 
         document.getElementById("registerForm").submit()            
+    }
+    function togglePassword(){
+        event.preventDefault()
+        let pass = document.getElementById("password")
+        if(pass.type === 'password')
+            pass.type = 'text'
+        else
+            pass.type = 'password'
+    }
+    function goBack(){
+        history.back()
     }
 </script>
 </html>
