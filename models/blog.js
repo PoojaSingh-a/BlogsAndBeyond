@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect(`mongodb://127.0.0.1:27017/blogWebsite`)
+mongoose.connect(`mongodb+srv://poojasingh3084a:ps123@blogsandbeyond.pjnu5.mongodb.net/?retryWrites=true&w=majority&appName=BlogsAndBeyond`)
 
 const blogSchema = mongoose.Schema({
     email: String,
