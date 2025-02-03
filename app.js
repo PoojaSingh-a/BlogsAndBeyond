@@ -4,7 +4,7 @@ const flash = require('connect-flash');
 const userModel = require('./models/user');
 const blogModel = require('./models/blog');
 const path = require('path');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
@@ -33,20 +33,19 @@ app.get('/', (req, res) => {
     const successMessagelogin = req.flash('success-login');
     const error = req.flash('error');
 
-    const isLoggedIn = req.user ? true : false; // Check if the user is logged in
+    const isLoggedIn = req.user ? true : false;
 
     res.render("index", { 
         successMessage, 
         successMessagelogin, 
         error,
-        isLoggedIn // Pass isLoggedIn variable to view
+        isLoggedIn
     });
 });
 
 app.post('/login', async (req, res) => {
     let user = await userModel.findOne({email: req.body.email});
     if (!user){
-        //return res.send("something is wrong");
         req.flash('error', 'something went wrong');
         return res.redirect('/')
     }
@@ -57,11 +56,10 @@ app.post('/login', async (req, res) => {
             res.cookie("token", token);
             res.cookie("user",req.body.email)
             req.flash('success-login', 'Succesfully logged in!');
-            res.redirect('/'); // You can redirect to a homepage or dashboard after successful login
+            res.redirect('/'); 
         } else {
             req.flash('error','something went wrong')
             res.redirect('/');
-            //res.send("something is wrong");
         }
     });
 });
@@ -97,7 +95,7 @@ app.post('/createUserr', (req, res) => {
                 let token = jwt.sign({ email: email }, "secret key");
                 res.cookie("token", token); // Set the token cookie
                 req.flash('success', 'User registered successfully'); // Flash message
-                res.redirect('/'); // Redirect to home page after setting cookie
+                res.redirect('/'); 
             } catch (err) {
                 console.log(err);
                 res.status(500).send("Error registering user");
@@ -114,7 +112,7 @@ app.get('/about', (req, res) => {
 app.get('/createBlog', (req, res) => {
     const loggedIn = req.cookies.token
     if(loggedIn)
-        res.render('write', { successBlogWrite: null }); // Ensure successBlogWrite is initialized
+        res.render('write', { successBlogWrite: null }); 
     else {
         req.flash('error', 'User not signed in!');
         res.redirect("/"); 
