@@ -10,5 +10,8 @@
     "mongoose": "^8.9.5",
     "nodemon": "^3.1.9",
     "swiper": "^11.2.1"
-  }
+  },
+ "scripts": {
+  "start": "node server.js"
+}
 }
